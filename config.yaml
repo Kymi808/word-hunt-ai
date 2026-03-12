@@ -1,0 +1,36 @@
+# Word Hunt AI Configuration
+
+# Path to dictionary file (one word per line)
+# Default uses macOS built-in dictionary
+dictionary_path: "/usr/share/dict/words"
+
+# Minimum word length to search for (Word Hunt minimum is 3)
+min_word_length: 3
+
+# Screen coordinates for the game board.
+# These define where the CENTER of cell (0,0) is on your screen
+# and the pixel distance between cell centers.
+# Use 'calibrate' mode to fine-tune these values.
+#
+# For iPhone Mirroring on macOS:
+#   1. Open iPhone Mirroring
+#   2. Start a Word Hunt game
+#   3. Run: python -m src.main calibrate
+#   4. Adjust these values until the mouse lands on each cell center
+board_origin_x: 200
+board_origin_y: 400
+cell_size: 90
+
+# Automation timing (seconds)
+# Lower = faster but may miss inputs; higher = more reliable
+swipe_delay: 0.02    # delay between letters in a swipe
+word_delay: 0.08     # delay between words
+
+# Game time limit in seconds (Word Hunt gives 80s, leave buffer)
+time_limit: 75.0
+
+# Max words to play (0 = unlimited, play all found words)
+max_words: 0
+
+# Max words to display in results (0 = show all)
+top_display: 0
