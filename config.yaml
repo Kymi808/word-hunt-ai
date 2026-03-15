@@ -2,7 +2,7 @@
 
 # Path to dictionary file (one word per line)
 # Default uses macOS built-in dictionary
-dictionary_path: "/usr/share/dict/words"
+dictionary_path: "dictionary/combined_words.txt"
 
 # Minimum word length to search for (Word Hunt minimum is 3)
 min_word_length: 3
@@ -17,17 +17,17 @@ min_word_length: 3
 #   2. Start a Word Hunt game
 #   3. Run: python -m src.main calibrate
 #   4. Adjust these values until the mouse lands on each cell center
-board_origin_x: 200
-board_origin_y: 400
-cell_size: 90
+board_origin_x: 82
+board_origin_y: 417
+cell_size: 60
 
 # Automation timing (seconds)
 # Lower = faster but may miss inputs; higher = more reliable
-swipe_delay: 0.02    # delay between letters in a swipe
-word_delay: 0.08     # delay between words
+swipe_delay: 0.03    # seconds to drag between letters (too low = game won't register)
+word_delay: 0.08     # seconds to pause between words
 
 # Game time limit in seconds (Word Hunt gives 80s, leave buffer)
-time_limit: 75.0
+time_limit: 77.0
 
 # Max words to play (0 = unlimited, play all found words)
 max_words: 0

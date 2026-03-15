@@ -15,7 +15,7 @@ import yaml
 
 from src.solver import solve, load_dictionary
 from src.board import parse_board, display_board, display_results
-from src.player import BoardPlayer, calibrate
+from src.player import BoardPlayer, calibrate, calibrate_by_clicking
 
 
 DEFAULT_CONFIG = {
@@ -130,14 +130,56 @@ def cmd_play(args, config):
     print(f"\nDone! Played {words_played} words for ~{score} points.")
 
 
+def save_calibration_to_config(cal: dict, config_path: str = "config.yaml"):
+    """Update config.yaml with new calibration values."""
+    if os.path.exists(config_path):
+        with open(config_path) as f:
+            raw = f.read()
+    else:
+        raw = ""
+
+    import re
+    for key, value in cal.items():
+        pattern = rf"^{key}:\s*.*$"
+        replacement = f"{key}: {value}"
+        if re.search(pattern, raw, re.MULTILINE):
+            raw = re.sub(pattern, replacement, raw, flags=re.MULTILINE)
+        else:
+            raw += f"\n{key}: {value}\n"
+
+    with open(config_path, "w") as f:
+        f.write(raw)
+    print(f"\nSaved calibration to {config_path}")
+
+
 def cmd_calibrate(args, config):
     """Run calibration to verify screen coordinates."""
-    print("Move your game window into position, then press Enter.")
-    input()
-    calibrate(
-        board_origin=(config["board_origin_x"], config["board_origin_y"]),
-        cell_size=config["cell_size"],
-    )
+    print("Calibration modes:")
+    print("  1. Click mode - click the center of 4 corner cells (recommended)")
+    print("  2. Verify mode - mouse moves to each cell using current config")
+    choice = input("\nChoose mode (1/2): ").strip()
+
+    if choice == "1":
+        cal = calibrate_by_clicking()
+        save = input("\nSave to config.yaml? (y/n): ").strip().lower()
+        if save == "y":
+            save_calibration_to_config(cal)
+            config.update(cal)
+
+        # Offer to verify
+        verify = input("Verify by moving mouse to all cells? (y/n): ").strip().lower()
+        if verify == "y":
+            calibrate(
+                board_origin=(cal["board_origin_x"], cal["board_origin_y"]),
+                cell_size=cal["cell_size"],
+            )
+    else:
+        print("Move your game window into position, then press Enter.")
+        input()
+        calibrate(
+            board_origin=(config["board_origin_x"], config["board_origin_y"]),
+            cell_size=config["cell_size"],
+        )
 
 
 def main():
