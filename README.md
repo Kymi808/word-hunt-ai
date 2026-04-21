@@ -178,6 +178,8 @@ The solver prioritizes longer/higher-scoring words first.
 python -m pytest tests/ -v
 ```
 
+Tip: run the solver-only path first before enabling OCR or auto-play so board parsing and dictionary loading are verified independently.
+
 ## Project Structure
 
 ```
