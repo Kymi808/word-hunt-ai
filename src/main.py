@@ -84,9 +84,14 @@ def cmd_capture(args, config):
     letters = ocr_board_from_image(image_path)
     print(f"Detected letters: {letters}")
 
-    confirm = input("Correct? (y/n or type corrected letters): ").strip()
-    if confirm.lower() != "y" and len(confirm) == 16:
-        letters = confirm
+    while True:
+        confirm = input("Correct? (y/n or type 16 corrected letters): ").strip()
+        if confirm.lower() == "y":
+            break
+        if len(confirm) == 16:
+            letters = confirm
+            break
+        print(f"Need exactly 16 letters (got {len(confirm)}). Try again or type 'y' to accept OCR.")
 
     board = parse_board(letters)
     display_board(board)
